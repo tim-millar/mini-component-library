@@ -9,15 +9,22 @@ const { black, gray700, transparentGray15 } = COLORS;
 
 const IconWrapper = () => <Icon id="chevron-down" size={24} />;
 
-const SelectWrapper = styled.select`
+const LayoutWrapper = styled.div`
+  display: inline-block;
   color: ${gray700};
   background-color: ${transparentGray15};
   padding: 12px 52px 12px 16px;
   border-radius: 8px;
-  appearance: none;
+  position: relative;
+
+  & div:first-of-type {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
 
   &:hover {
-    color: ${black};
+    color: black;
   }
 
   &:focus {
@@ -25,20 +32,14 @@ const SelectWrapper = styled.select`
   }
 `;
 
-const LayoutWrapper = styled.div`
-  display: inline-block;
-  position: relative;
-
-  & > div {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-
-    &:hover {
-      color: ${black};
-    }
-  }
+const HiddenSelect = styled.select`
+  position: absolute;
+  opacity: 0;
+  width: 100%
+  height: 100%;
 `;
+
+const CustomSelect = styled.div``;
 
 const Select = ({ label, value, onChange, children }) => {
   const displayedValue = getDisplayedValue(value, children);
@@ -46,10 +47,11 @@ const Select = ({ label, value, onChange, children }) => {
   return (
     <>
       <LayoutWrapper>
-        <IconWrapper />
-        <SelectWrapper value={value} onChange={onChange}>
+        <HiddenSelect value={value} onChange={onChange}>
           {children}
-        </SelectWrapper>
+        </HiddenSelect>
+        <IconWrapper />
+        <CustomSelect>{displayedValue}</CustomSelect>
       </LayoutWrapper>
     </>
   );
