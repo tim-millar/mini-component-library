@@ -3,11 +3,12 @@ import styled from "styled-components";
 
 import { COLORS } from "../../constants";
 import Icon from "../Icon";
-import { getDisplayedValue } from "./Select.helpers";
 
 const { black, gray700, transparentGray15 } = COLORS;
 
-const IconWrapper = () => <Icon id="chevron-down" size={24} />;
+const IconWrapper = styled.div`
+  pointer-events: none;
+`;
 
 const SelectWrapper = styled.select`
   color: ${gray700};
@@ -15,18 +16,20 @@ const SelectWrapper = styled.select`
   padding: 12px 52px 12px 16px;
   border-radius: 8px;
   appearance: none;
+  -webkit-appearance: none;
 
   &:hover {
     color: ${black};
   }
 
   &:focus {
+    outline: 1px dotted #212121;
     outline: 5px auto -webkit-focus-ring-color;
   }
 `;
 
 const LayoutWrapper = styled.div`
-  display: inline-block;
+  width: max-content;
   position: relative;
 
   & > div {
@@ -41,17 +44,15 @@ const LayoutWrapper = styled.div`
 `;
 
 const Select = ({ label, value, onChange, children }) => {
-  const displayedValue = getDisplayedValue(value, children);
-
   return (
-    <>
-      <LayoutWrapper>
-        <IconWrapper />
-        <SelectWrapper value={value} onChange={onChange}>
-          {children}
-        </SelectWrapper>
-      </LayoutWrapper>
-    </>
+    <LayoutWrapper>
+      <IconWrapper>
+        <Icon id="chevron-down" size={24} />
+      </IconWrapper>
+      <SelectWrapper value={value} onChange={onChange}>
+        {children}
+      </SelectWrapper>
+    </LayoutWrapper>
   );
 };
 
