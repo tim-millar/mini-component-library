@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>README.html</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+
+</head>
+
+<body>
+
+<h1 id="componentlibraryworkshop">Component Library Workshop</h1>
+
+<p>In this workshop, we&#8217;ll build 3 components from scratch:</p>
+
+<ol>
+<li>ProgressBar</li>
+<li>Select</li>
+<li>IconInput</li>
+</ol>
+
+<p>Most of the pertinent information will be stored in the Figma document (https://www.figma.com/file/u0wCdLXheiN9f2FmAuPsE9/Mini-Component-Library), but this README will contain some additional information to help you on your mission!</p>
+
+<p>Two fully-formed components have already been included, to be used as-needed in your work:</p>
+
+<ul>
+<li><code>Icon</code>, an icon component that uses <code>react-feather</code> to render various icons</li>
+<li><code>VisuallyHidden</code>, a component that allows us to make text available to screen-reader users, but not to sighted users.</li>
+</ul>
+
+<p>Additionally, all of the colors you&#8217;ll need are indexed in <code>constants.js</code>.</p>
+
+<p>All components in this project use <a href="https://fonts.google.com/specimen/Roboto">the <code>Roboto</code> font</a>. This font is already included in the Storybook environment, and is already applied to all elements. It comes in two weights:</p>
+
+<ul>
+<li>400 (default)</li>
+<li>700 (bold)</li>
+</ul>
+
+<h2 id="runningstorybook">Running Storybook</h2>
+
+<p>This project uses Storybook, a component development tool.</p>
+
+<p>First, install dependencies with <code>npm install</code>.</p>
+
+<p>Once dependencies are installed, you can start storybook by running:</p>
+
+<pre><code>npm run start
+</code></pre>
+
+<p>Once running, you can visit storybook at http://localhost:6006.</p>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<p>You may get an error when running the <code>start</code> script that looks like this:</p>
+
+<pre><code>Error: error:0308010C:digital envelope routines::unsupported
+    at new Hash (node:internal/crypto/hash:67:19)
+    at Object.createHash (node:crypto:130:10)
+</code></pre>
+
+<p>You can fix this issue either by downgrading to Node 16, or by updating the <code>package.json</code> file as follows:</p>
+
+<pre><code class="diff">  &quot;scripts&quot;: {
+-   &quot;start&quot;: &quot;start-storybook -p 6006 -s public&quot;,
++   &quot;start&quot;: &quot;NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006 -s public&quot;,
+  },
+</code></pre>
+
+<p>For more info, check out the <a href="https://courses.joshwcomeau.com/troubleshooting">Troubleshooting Guide</a> on the course platform.</p>
+
+<h2 id="thecomponents">The Components</h2>
+
+<h3 id="progressbar">ProgressBar</h3>
+
+<p>The figma document mentions that this component should be &#8220;accessible&#8221;. You can learn how to build a semantically-valid, accessible progress-bar component by reading this doc: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_progressbar_role</p>
+
+<p>This component uses a <strong>box shadow</strong>. We haven&#8217;t seen this property yet! For now, you can achieve this effect by copying the following CSS declaration into your component:</p>
+
+<pre><code class="css">box-shadow: inset 0px 2px 4px ${COLORS.transparentGray35};
+</code></pre>
+
+<p>We&#8217;ll learn much more about the <code>box-shadow</code> property in future modules =)</p>
+
+<h3 id="select">Select</h3>
+
+<p>The Select component will need a down-arrow icon! You can use the <code>chevron-down</code> ID with the <code>Icon</code> component.</p>
+
+<p>We want to use a native <code>&lt;select&gt;</code> tag in this component, so a bit of precursory HTML has been provided.</p>
+
+<p>This component also includes a function, <code>getDisplayedValue</code>. This component uses some React APIs to work out the text that should be displayed. The value isn&#8217;t currently used, but you can make use of it if needed, depending on your implementation.</p>
+
+<blockquote>
+<p><strong>NOTE:</strong> Hiding the built-in chevron</p>
+
+<p>The <select> tag has a built-in chevron (downward-pointing
+character), but it&#8217;s inconsistent between browsers. We want to
+use the provided “chevron-down” icon. But how do we replace the
+default built-in one??</p>
+
+<p>This is something we haven&#8217;t learned how to do, and so you&#8217;ll need
+to do some googling + experimentation. I want you to get a bit
+of practice trying to tackle “unconventional” challenges like this!</p>
+
+<p>If you get stuck and/or would like a hint, you&#8217;ll find one on
+the solution page:
+https://courses.joshwcomeau.com/css-for-js/03-components/19-workshop-select#select</p>
+</blockquote>
+
+<h3 id="iconinput">IconInput</h3>
+
+<p>This component also uses the <code>Icon</code> component — the specific ID will be provided as a prop.</p>
+
+<p>This component requires bold text. You can achieve this look by using <code>font-weight: 700</code>.</p>
+
+</body>
+</html>
