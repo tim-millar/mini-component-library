@@ -1,175 +1,83 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import OutsideClickHandler from "react-outside-click-handler";
 
 import { COLORS } from "../../constants";
 
 import Icon from "../Icon";
 import VisuallyHidden from "../VisuallyHidden";
 
-const LayoutWrapper = styled.div`
+const IconInputWrapper = styled.label`
+  display: inline-block;
   position: relative;
-  padding-left: 36px;
-  width: ${({ width }) => width}px;
-  font-weight: 700;
-  color: ${COLORS.gray700};
-
-  ${(props) =>
-    props.focusInput &&
-    `
-    outline: 1px dotted #212121;
-    outline: 5px auto -webkit-focus-ring-color;
-    outline-offset: 2px;
-  `}
-`;
-
-const InputWrapper = styled.input`
-  height: 100%;
-  width: ${({ width }) => width - 37}px;
-  appearance: none;
   border: none;
-  font-weight: 700;
   color: ${COLORS.gray700};
+  font-weight: 700;
+  height: 100%;
 
-  &:focus,
-  &:focus-visible {
-    outline: none;
+  &:hover {
+    color: ${COLORS.black};
   }
+`;
 
-  ::placeholder {
-    font-weight: 400;
+const Input = styled.input`
+  width: var(--width);
+  border: none;
+  color: inherit;
+  font-weight: inherit;
+  outline-offset: 2px;
+
+  &::placeholder {
     color: ${COLORS.gray500};
-  }
-
-  ${LayoutWrapper}:hover & {
-    color: ${COLORS.black};
+    font-weight: 400;
   }
 `;
 
-const IconWrapper = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  margin-top: auto;
-  margin-bottom: auto;
-
-  ${LayoutWrapper}:hover & {
-    color: ${COLORS.black};
-  }
-`;
-
-const LargeLayoutWrapper = styled(LayoutWrapper)`
-  height: ${36 / 16}rem;
-  border-bottom: 2px solid ${COLORS.black};
-  font-size: ${18 / 16}rem;
-  line-height: ${21 / 16}rem;
-`;
-
-const LargeInputWrapper = styled(InputWrapper)`
-  font-size: ${18 / 16}rem;
-  line-height: ${21 / 16}rem;
-`;
-
-const LargeIconWrapper = styled(IconWrapper)`
-  width: 24px;
-  height: 24px;
-`;
-
-const LargeIconInput = ({
-  label,
-  icon,
-  width = 271,
-  size,
-  placeholder = "Search...",
-  toggleFocus,
-  focusInput,
-}) => {
-  return (
-    <OutsideClickHandler onOutsideClick={() => toggleFocus(false)}>
-      <LargeLayoutWrapper
-        width={width}
-        focusInput={focusInput}
-        onClick={toggleFocus}
-      >
-        <VisuallyHidden htmlFor="search">{label}</VisuallyHidden>
-        <LargeIconWrapper>
-          <Icon id={icon} size={24} />
-        </LargeIconWrapper>
-        <LargeInputWrapper
-          id="search"
-          width={width}
-          placeholder={placeholder}
-        />
-      </LargeLayoutWrapper>
-    </OutsideClickHandler>
-  );
-};
-
-const SmallLayoutWrapper = styled(LayoutWrapper)`
-  height: ${28 / 16}rem;
+const SmallInput = styled(Input)`
+  height: ${24 / 16}rem;
+  padding-left: 16px;
   border-bottom: 1px solid ${COLORS.black};
-  font-weight: 700;
-  color: ${COLORS.gray700};
-`;
-
-const SmallIconWrapper = styled(IconWrapper)`
-  width: 18px;
-  height: 18px;
-`;
-
-const SmallInputWrapper = styled(InputWrapper)`
   font-size: ${14 / 16}rem;
   line-height: ${16 / 16}rem;
 `;
 
-const SmallIconInput = ({
-  label,
-  icon,
-  width = 250,
-  size,
-  placeholder = "Search...",
-  toggleFocus,
-  focusInput,
-}) => (
-  <OutsideClickHandler onOutsideClick={() => toggleFocus(false)}>
-    <SmallLayoutWrapper
-      width={width}
-      focusInput={focusInput}
-      onClick={toggleFocus}
-    >
-      <VisuallyHidden htmlFor="search">{label}</VisuallyHidden>
-      <SmallIconWrapper>
-        <Icon id={icon} size={18} />
-      </SmallIconWrapper>
-      <SmallInputWrapper width={width} placeholder={placeholder} />
-    </SmallLayoutWrapper>
-  </OutsideClickHandler>
-);
+const LargeInput = styled(Input)`
+  height: ${36 / 16}rem;
+  padding-left: 24px;
+  border-bottom: 2px solid ${COLORS.black};
+  font-weight: inherit;
+  font-size: ${18 / 16}rem;
+  line-height: ${21 / 16}rem;
+`;
+
+const IconWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  max-height: max-content;
+`;
 
 const IconInput = ({ label, icon, width = 250, size, placeholder }) => {
-  const [focusInput, setFocusInput] = useState(false);
-  const toggleFocus = (toggle = true) => {
-    setFocusInput((toggleInput) => toggle && !toggleInput);
-  };
+  const iconSize = size === "small" ? 16 : 24;
 
-  if (size === "small") {
-    return (
-      <SmallIconInput
-        icon={icon}
-        width={width}
-        toggleFocus={toggleFocus}
-        focusInput={focusInput}
-      />
-    );
-  }
   return (
-    <LargeIconInput
-      icon={icon}
-      width={width}
-      toggleFocus={toggleFocus}
-      focusInput={focusInput}
-    />
+    <IconInputWrapper>
+      <VisuallyHidden>{label}</VisuallyHidden>
+      <IconWrapper>
+        <Icon id={icon} size={iconSize} />
+      </IconWrapper>
+      {size === "small" ? (
+        <SmallInput
+          placeholder={placeholder}
+          style={{ "--width": `${width}px` }}
+        />
+      ) : (
+        <LargeInput
+          placeholder={placeholder}
+          style={{ "--width": `${width}px` }}
+        />
+      )}
+    </IconInputWrapper>
   );
 };
 
